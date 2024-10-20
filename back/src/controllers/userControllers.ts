@@ -1,52 +1,46 @@
 import { Request, Response } from "express";
 import { getUserByIdService, getUserService, loginUserService, registerUserService } from "../services/userService";
-import { UserLoginDTO, UserRegisterDTO } from "../dtos/UserDTO";
+import { UserDTO, UserLoginDTO, UserRegisterDTO } from "../dtos/UserDTO";
+import { User } from "../interfaces/UserInterface";
+import { handleErrorResponse } from "./appointmentControllers";
 
 export const getUsersController = async (req: Request, res: Response): Promise<void> => {
   try {
-    const serviceResponse: void = await getUserService()
+    const serviceResponse: UserDTO[] = await getUserService()
     res.status(200).json({
       message: "Obtener el listado de todos los usuarios.",
       data: serviceResponse
     })
   } catch (error) {
-    res.status(500).json({
-      message: "hubo un error en la aplicacion",
-      error: error
-    })
+    handleErrorResponse(error, res, "error al obtener todos los usuarios")
   }
 }
 
 export const getUserByIdController = async (req: Request<{ id: string }>, res: Response): Promise<void> => {
-
     const { id } = req.params
     try {
-        const serviceResponse: string = await getUserByIdService(id) 
+        const serviceResponse: UserDTO = await getUserByIdService(id) 
         res.status(200).json({
           message: "Obtener el detalle de un usuario específico.",
           data: serviceResponse
         })
     } catch (error) {
-        res.status(500).json({
-          message: "hubo un error en la aplicacion",
-          error: error
-        })
+      handleErrorResponse(error, res, "error al obtener el usuario por id")
+
     }
 }
 
 export const resgisterUserController = async (req: Request<unknown, unknown, UserRegisterDTO>, res: Response): Promise<void> => {
     try {
-        const serviceResponse: UserRegisterDTO = await registerUserService(req.body)
+        const serviceResponse: User = await registerUserService(req.body)
         res.status(201).json({
           message: "Registro de un nuevo usuario.",
           data: serviceResponse
         })
 
     } catch (error) {
-        res.status(500).json({
-          message: "hubo un error en la aplicacion",
-          error: error
-        })
+      handleErrorResponse(error, res, "error al registrar un nuevo usuario")
+
     }
 }
 
@@ -58,9 +52,7 @@ export const loginUserController = async (req: Request<unknown, unknown, UserLog
         data: serviceResponse
       })
   } catch (error) {
-      res.status(500).json({
-        message: "hubo un error en la aplicacion",
-        error: error
-      })
+    handleErrorResponse(error, res, "error al loguear un usuario")
+
   }
 }

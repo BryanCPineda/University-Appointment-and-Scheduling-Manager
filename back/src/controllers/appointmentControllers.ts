@@ -2,6 +2,15 @@ import { Request, Response } from "express";
 import { AppointmentRegisterDTO } from "../dtos/AppointmentDTO";
 import { cancelStatusAppointmentService, getAppointmentByIdService, getAppointmentService, registerAppointmentService } from "../services/appointmentService";
 
+export const handleErrorResponse = ( error: unknown, res: Response, message: string): void => {
+      const errorMessage = {
+          message: message,
+          details: error instanceof Error ? error.message : "Error desconocido"
+      }
+      res.status(400).json(errorMessage)
+}
+
+
 export const getAppointmentsController = async (req: Request, res: Response): Promise<void> => {
     try {
       const serviceResponse = await getAppointmentService()
@@ -10,10 +19,7 @@ export const getAppointmentsController = async (req: Request, res: Response): Pr
         data: serviceResponse
       })
     } catch (error) {
-      res.status(500).json({
-        message: "hubo un error en la aplicacion",
-        error: error
-      })
+      handleErrorResponse(error, res, "error al obtener todas las citas")
     }
 }
 
@@ -26,32 +32,21 @@ export const getAppointmentByIdController = async (req: Request<{ id: string }>,
       data: serviceResponse
     })
   } catch (error) {
-    res.status(500).json({
-      message: "hubo un error en la aplicacion",
-      error: error
-    })
+    handleErrorResponse(error, res, "error al obtener la cita por id")
   }
 }
 
 export const registerAppointmentController = async (req: Request<unknown, unknown, AppointmentRegisterDTO>, res: Response): Promise<void> => {
 
-  const appointmentData: AppointmentRegisterDTO = {
-      date: new Date(req.body.date),
-      time: req.body.time,
-      status: "Active"
-  }
-
   try {
-    const serviceResponse: AppointmentRegisterDTO = await registerAppointmentService(appointmentData)
+    const serviceResponse: AppointmentRegisterDTO = await registerAppointmentService(req.body)
     res.status(200).json({
       message: "Agendar un nuevo turno",
       data: serviceResponse
     })
   } catch (error) {
-    res.status(500).json({
-      message: "hubo un error en la aplicacion",
-      error: error
-    })
+    handleErrorResponse(error, res, "error al registrar una nueva cita")
+
   }
 }
 
@@ -64,9 +59,6 @@ export const cancelStatusAppointmentController = async (req: Request<{ id: strin
       data: serviceResponse
     })
   } catch (error) {
-    res.status(500).json({
-      message: "hubo un error en la aplicacion",
-      error: error
-    })
+    handleErrorResponse(error, res, "error al cancelar la cita")
   }
 }
