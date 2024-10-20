@@ -1,5 +1,6 @@
 export interface AppointmentRegisterDTO{
     date: Date
     time: string
-    status: "Active"
+    status: string,
+    userId: number
 }
