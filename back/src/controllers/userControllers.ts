@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
 import { getUserByIdService, getUserService, loginUserService, registerUserService } from "../services/userService";
 import { UserDTO, UserLoginDTO, UserRegisterDTO } from "../dtos/UserDTO";
-import { User } from "../interfaces/UserInterface";
 import { handleErrorResponse } from "./appointmentControllers";
+import { User } from "../entities/User.entity";
 
 export const getUsersController = async (req: Request, res: Response): Promise<void> => {
   try {
@@ -19,28 +19,25 @@ export const getUsersController = async (req: Request, res: Response): Promise<v
 export const getUserByIdController = async (req: Request<{ id: string }>, res: Response): Promise<void> => {
     const { id } = req.params
     try {
-        const serviceResponse: UserDTO = await getUserByIdService(id) 
+        const serviceResponse: UserDTO = await getUserByIdService(parseInt(id,10)) 
         res.status(200).json({
           message: "Obtener el detalle de un usuario específico.",
           data: serviceResponse
         })
     } catch (error) {
       handleErrorResponse(error, res, "error al obtener el usuario por id")
-
     }
 }
 
 export const resgisterUserController = async (req: Request<unknown, unknown, UserRegisterDTO>, res: Response): Promise<void> => {
     try {
-        const serviceResponse: User = await registerUserService(req.body)
+        const serviceResponse: User | undefined = await registerUserService(req.body)
         res.status(201).json({
           message: "Registro de un nuevo usuario.",
           data: serviceResponse
         })
-
     } catch (error) {
       handleErrorResponse(error, res, "error al registrar un nuevo usuario")
-
     }
 }
 
@@ -53,6 +50,5 @@ export const loginUserController = async (req: Request<unknown, unknown, UserLog
       })
   } catch (error) {
     handleErrorResponse(error, res, "error al loguear un usuario")
-
   }
 }

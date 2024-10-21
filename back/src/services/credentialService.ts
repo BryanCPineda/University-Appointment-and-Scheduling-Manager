@@ -1,7 +1,6 @@
-import { Credential } from "../interfaces/CredentialInterface"
-
-const credentialsList: Credential[] = []
-let id: number = 1
+import { EntityManager } from "typeorm"
+import { CredentialModel } from "../config/data-source"
+import { Credential } from "../entities/Credentials.entity"
 
 const crypPass = async (pass: string): Promise<string> => {
         const encoder = new TextEncoder()
@@ -12,25 +11,25 @@ const crypPass = async (pass: string): Promise<string> => {
         return hasHex
 }
 
-const checkUserExist = (username: string): void => {
-    const credentialFound: Credential | undefined = credentialsList.find( credential => credential.username === username )
+const checkUserExist = async (username: string): Promise<void> => {
+    const credentialFound: Credential | null = await CredentialModel.findOne({ where:{	username } })
     if(credentialFound) throw new Error(`El usuario con username: ${username} ya existe, intente con nuevo username`)
 }
 
-export const getCredentialService = async (username: string, password: string): Promise<number> => {
-    checkUserExist(username)
+export const getCredentialService = async (entityManager: EntityManager, username: string, password: string): Promise<Credential |undefined> => {
+    
+		await checkUserExist(username)
     const passwordEncrypted = await crypPass(password)
-    const objetoCredenciales = {
-        id,
+    const objetoCredenciales: Credential = entityManager.create( Credential, {
         username,
         password: passwordEncrypted
-    }
-    credentialsList.push(objetoCredenciales)
-    return id++
+    })   
+    
+    return await entityManager.save(objetoCredenciales)
 }
 
 export const checkUserCredentials = async (username: string, password: string): Promise<number | undefined>  => {
-    const credentialFound: Credential | undefined = credentialsList.find( credential => credential.username === username )
+    const credentialFound: Credential | null  = await CredentialModel.findOne({ where:{	username } })
     const passwordEncrypt = await crypPass(password)
     return credentialFound?.password === passwordEncrypt ? credentialFound.id : undefined
 }

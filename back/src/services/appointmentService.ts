@@ -16,7 +16,7 @@ export const getAppointmentByIdService = async (id: string):  Promise<Appointmen
 }
 
 export const registerAppointmentService = async (appointmentData: AppointmentRegisterDTO ): Promise<AppointmentRegisterDTO> => {
-    const userFound = await getUserByIdService(appointmentData.userId.toString())
+    const userFound = await getUserByIdService(appointmentData.userId)
     if(!userFound) throw new Error(`El usuario con id: ${appointmentData.userId} no existe`)
     const newAppointment: Appointment = {
         id: id++,

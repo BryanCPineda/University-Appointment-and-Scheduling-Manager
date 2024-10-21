@@ -1,11 +1,15 @@
 import { Request, Response } from "express";
 import { AppointmentRegisterDTO } from "../dtos/AppointmentDTO";
 import { cancelStatusAppointmentService, getAppointmentByIdService, getAppointmentService, registerAppointmentService } from "../services/appointmentService";
+import { PostgresError } from "../interfaces/ErrorInterface";
 
 export const handleErrorResponse = ( error: unknown, res: Response, message: string): void => {
+
+      const err = error as PostgresError
+
       const errorMessage = {
           message: message,
-          details: error instanceof Error ? error.message : "Error desconocido"
+          details: error instanceof Error ? err.detail ? err.detail : error.message : "Error desconocido"
       }
       res.status(400).json(errorMessage)
 }

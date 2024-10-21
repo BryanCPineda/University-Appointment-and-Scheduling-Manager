@@ -1,6 +1,6 @@
 export interface UserRegisterDTO {
   name: string,
-  DNI: number,
+  nDni: number,
   email: string,
   username: string,
   password: string,
