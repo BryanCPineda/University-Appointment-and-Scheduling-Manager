@@ -1,18 +1,19 @@
-import { AppDataSource, UserModel } from "../config/data-source"
-import { UserDTO, UserLoginDTO, UserRegisterDTO } from "../dtos/UserDTO"
+import { AppDataSource } from "../config/data-source"
+import { UserCredentialDTO, UserDTO, UserLoginDTO, UserRegisterDTO } from "../dtos/UserDTO"
 import { Credential } from "../entities/Credentials.entity"
 import { User } from "../entities/User.entity"
-import { getCredentialService } from "./credentialService"
+import { UserRepository } from "../repositories/User.Repository"
+import { checkUserCredentials, getCredentialService } from "./credentialService"
 
 export const getUserService = async (): Promise<UserDTO[]>  => {
-		const users: User[] = await UserModel.find()
+		const users: User[] = await UserRepository.find()
     return users
 }
 
 export const getUserByIdService = async (id: number): Promise<UserDTO> => {
-		const userFound = await UserModel.findOne({
+		const userFound = await UserRepository.findOne({
 				where: { id },
-				relations: ['credentials']
+				relations: ['appointments']
 		})
 		if(!userFound) throw new Error(`El usuario con id: ${id} no fue encontrado`)
     else return userFound
@@ -35,6 +36,20 @@ export const registerUserService = async (user: UserRegisterDTO): Promise<User> 
 	
 }
 
-export const loginUserService = async (userCredentials: UserLoginDTO): Promise<UserLoginDTO> => {
-      return userCredentials
+export const loginUserService = async (userCredentials: UserCredentialDTO): Promise<UserLoginDTO> => {
+	const credentialId: number | undefined = await checkUserCredentials(userCredentials.username, userCredentials.password)
+	const userFound: User | null = await UserRepository.findOne(
+		{ where: 
+			{
+				credentials: {  
+						id: credentialId
+				}
+			}
+		})
+	return {
+			login: true,
+			user: {
+				...userFound
+			}
+	}
 } 
