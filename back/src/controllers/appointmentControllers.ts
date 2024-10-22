@@ -1,68 +1,47 @@
 import { Request, Response } from "express";
 import { AppointmentRegisterDTO } from "../dtos/AppointmentDTO";
 import { cancelStatusAppointmentService, getAppointmentByIdService, getAppointmentService, registerAppointmentService } from "../services/appointmentService";
-import { PostgresError } from "../interfaces/ErrorInterface";
+import { catchingError } from "../utils/catchinErros";
 
-export const handleErrorResponse = ( error: unknown, res: Response, message: string): void => {
-
-      const err = error as PostgresError
-
-      const errorMessage = {
-          message: message,
-          details: error instanceof Error ? err.detail ? err.detail : error.message : "Error desconocido"
-      }
-      res.status(400).json(errorMessage)
-}
-
-
-export const getAppointmentsController = async (req: Request, res: Response): Promise<void> => {
-    try {
+const getAppointmentsController = async (req: Request, res: Response): Promise<void> => {
       const serviceResponse = await getAppointmentService()
       res.status(200).json({
         message: "Obtener el listado de todos los turnos de todos los usuarios.",
         data: serviceResponse
       })
-    } catch (error) {
-      handleErrorResponse(error, res, "error al obtener todas las citas")
-    }
 }
 
-export const getAppointmentByIdController = async (req: Request<{ id: string }>, res: Response): Promise<void> => {
-  const { id } = req.params
-  try {
+const getAppointmentByIdController = async (req: Request<{ id: string }>, res: Response): Promise<void> => {
+    const { id } = req.params
     const serviceResponse = await getAppointmentByIdService(id)
     res.status(200).json({
       message: "Obtener el detalle de un turno específico.",
       data: serviceResponse
     })
-  } catch (error) {
-    handleErrorResponse(error, res, "error al obtener la cita por id")
-  }
 }
 
-export const registerAppointmentController = async (req: Request<unknown, unknown, AppointmentRegisterDTO>, res: Response): Promise<void> => {
-
-  try {
-    const serviceResponse: AppointmentRegisterDTO = await registerAppointmentService(req.body)
-    res.status(200).json({
-      message: "Agendar un nuevo turno",
-      data: serviceResponse
+const registerAppointmentController = async (req: Request<unknown, unknown, AppointmentRegisterDTO>, res: Response): Promise<void> => {
+    await registerAppointmentService(req.body)
+    res.status(201).json({
+      message: "Cita agendada con exito",
     })
-  } catch (error) {
-    handleErrorResponse(error, res, "error al registrar una nueva cita")
-
-  }
 }
 
-export const cancelStatusAppointmentController = async (req: Request<{ id: string }>, res: Response): Promise<void> => {
+const cancelStatusAppointmentController = async (req: Request<{ id: string }>, res: Response): Promise<void> => {
   const { id } = req.params
-  try {
+  
     const serviceResponse = await cancelStatusAppointmentService(id)
     res.status(200).json({
-      message: "Cambiar el estatus de un turno a “cancelled”",
+      message: "Cita cancelada con exito",
       data: serviceResponse
     })
-  } catch (error) {
-    handleErrorResponse(error, res, "error al cancelar la cita")
-  }
 }
+
+const appointmentsControllers = {
+  getAppointmentsController: catchingError(getAppointmentsController),
+  getAppointmentByIdController: catchingError(getAppointmentByIdController),
+  registerAppointmentController: catchingError(registerAppointmentController),
+  cancelStatusAppointmentController: catchingError(cancelStatusAppointmentController),
+}
+
+export default appointmentsControllers

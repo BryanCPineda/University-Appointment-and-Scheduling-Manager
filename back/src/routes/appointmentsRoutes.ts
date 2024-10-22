@@ -1,17 +1,17 @@
-import { Request, Response, Router } from "express"
+import { NextFunction, Request, Response, Router } from "express"
 import { AppointmentRegisterDTO } from "../dtos/AppointmentDTO"
-import { cancelStatusAppointmentController, getAppointmentByIdController, getAppointmentsController, registerAppointmentController } from "../controllers/appointmentControllers"
+import appointmentsControllers from "../controllers/appointmentControllers"
 
 const appointmentRouter: Router = Router()
 
-appointmentRouter.get("/", (req: Request, res: Response) => getAppointmentsController(req, res))
+appointmentRouter.get("/", (req: Request, res: Response, next: NextFunction) => appointmentsControllers.getAppointmentsController(req, res, next))
 
-appointmentRouter.get("/:id", (req: Request<{ id: string}>, res: Response) => getAppointmentByIdController(req, res) )
+appointmentRouter.get("/:id", (req: Request<{ id: string}>, res: Response, next: NextFunction) => appointmentsControllers.getAppointmentByIdController(req, res, next) )
 
-appointmentRouter.post("/schedule", (req: Request<unknown, unknown, AppointmentRegisterDTO>, res: Response) => registerAppointmentController(req, res))
+appointmentRouter.post("/schedule", (req: Request<unknown, unknown, AppointmentRegisterDTO>, res: Response, next: NextFunction) => appointmentsControllers.registerAppointmentController(req, res, next))
 
 
-appointmentRouter.put("/cancel/:id", (req: Request<{id: string}>, res: Response) => cancelStatusAppointmentController(req, res))
+appointmentRouter.put("/cancel/:id", (req: Request<{id: string}>, res: Response, next: NextFunction) => appointmentsControllers.cancelStatusAppointmentController(req, res, next))
 
 
 export default appointmentRouter
