@@ -1,6 +1,6 @@
 import { EntityManager } from "typeorm"
-import { CredentialModel } from "../config/data-source"
 import { Credential } from "../entities/Credentials.entity"
+import { CredentialRepository } from "../repositories/Credential.Repository"
 
 const crypPass = async (pass: string): Promise<string> => {
         const encoder = new TextEncoder()
@@ -12,13 +12,13 @@ const crypPass = async (pass: string): Promise<string> => {
 }
 
 const checkUserExist = async (username: string): Promise<void> => {
-    const credentialFound: Credential | null = await CredentialModel.findOne({ where:{	username } })
+    const credentialFound: Credential | null = await CredentialRepository.findOne({ where:{	username } })
     if(credentialFound) throw new Error(`El usuario con username: ${username} ya existe, intente con nuevo username`)
 }
 
 export const getCredentialService = async (entityManager: EntityManager, username: string, password: string): Promise<Credential |undefined> => {
     
-		await checkUserExist(username)
+	await checkUserExist(username)
     const passwordEncrypted = await crypPass(password)
     const objetoCredenciales: Credential = entityManager.create( Credential, {
         username,
@@ -29,7 +29,11 @@ export const getCredentialService = async (entityManager: EntityManager, usernam
 }
 
 export const checkUserCredentials = async (username: string, password: string): Promise<number | undefined>  => {
-    const credentialFound: Credential | null  = await CredentialModel.findOne({ where:{	username } })
-    const passwordEncrypt = await crypPass(password)
-    return credentialFound?.password === passwordEncrypt ? credentialFound.id : undefined
+    const credentialFound: Credential | null  = await CredentialRepository.findOne({ where:{	username } })
+    if(!credentialFound) throw new Error(`Usuario o contraseña incorrectos`)
+    else{
+        const passwordEncrypt = await crypPass(password)
+				if(credentialFound?.password != passwordEncrypt) throw new Error(`Usuario o contraseña incorrectos`)
+        else return credentialFound.id
+    }
 }
