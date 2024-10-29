@@ -1,0 +1,101 @@
+.appointmentCard {
+  background-color: #57cc99;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin: 10px;
+  width: 300px;
+  text-align: center;
+  transition: box-shadow 0.3s ease;
+}
+
+.appointmentCard:hover {
+  box-shadow: 0 15px 12px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+}
+
+.appointmentHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.appointmentDetails {
+  font-size: 0.9rem;
+  margin-top: 10px;
+}
+
+.appointmentDetails p {
+  margin: 0px 0; /* Espacio vertical entre los párrafos */
+  display: flex; /* Usamos flex para alinear mejor */
+  justify-content: space-around; /* Espaciado entre etiqueta y valor */
+  align-items: center; /* Alinear verticalmente */
+}
+
+.appointmentDetails strong {
+  color: #22577a; /* Color azul para destacar las etiquetas */
+  font-weight: 600; /* Peso de fuente para destacar */
+  text-transform: uppercase; /* Transformar a mayúsculas */
+  font-size: 1rem; /* Aumentar un poco el tamaño de la fuente */
+}
+
+.appointmentDetails span {
+  font-weight: 500; /* Peso de fuente para el valor */
+  color: #333; /* Color del texto del valor */
+  background-color: #f1f1f1; /* Fondo ligero para los valores */
+  padding: 1px 20px; /* Relleno alrededor del texto */
+  border-radius: 5px; /* Bordes redondeados para el fondo */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2); /* Sombra ligera para dar profundidad */
+  margin-bottom: 4px;
+}
+
+.statusActive {
+  background-color: #38a3a5;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-weight: bold;
+  font-size: 0.9rem;
+  display: inline-block;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.statusInactive {
+  background-color: #dc3545;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-weight: bold;
+  font-size: 0.9rem;
+  display: inline-block;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.cancelButton {
+  background-color: #dc3545; /* Color rojo para el botón de cancelar */
+  color: #fff; /* Texto blanco */
+  border: none; /* Sin borde */
+  border-radius: 4px; /* Bordes redondeados */
+  padding: 10px 16px; /* Espaciado interno */
+  cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
+  margin-top: 10px; /* Espacio superior para separar del contenido */
+  transition: background-color 0.3s; /* Transición suave para el color de fondo */
+}
+
+.cancelButton:hover {
+  background-color: #c82333; /* Color más oscuro al pasar el cursor */
+}
+
+.disabled {
+  background-color: #d3d3d3; /* Color gris para el botón deshabilitado */
+  color: #a9a9a9; /* Color gris más claro para el texto */
+  cursor: not-allowed; /* Cambia el cursor para indicar que está deshabilitado */
+  box-shadow: none; /* Elimina la sombra para el botón deshabilitado */
+}
+
+.cancelButton.disabled:hover {
+  background-color: #d3d3d3; /* Mantener el color gris */
+  box-shadow: none; /* Sin sombra */
+}

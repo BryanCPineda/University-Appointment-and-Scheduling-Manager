@@ -1,0 +1,31 @@
+.homeContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh; /* Ocupa toda la altura de la ventana */
+  text-align: center; /* Centra el texto */
+}
+
+.welcomeTitle {
+  font-size: 5.5rem; /* Tamaño de fuente grande */
+  color: #22577a; /* Color azul para el título */
+  margin-bottom: 10px; /* Espacio debajo del título */
+  font-weight: bold; /* Negrita para el título */
+}
+
+.welcomeMessage {
+  font-size: 2.5rem; /* Tamaño de fuente más pequeño */
+  color: #1cb472; /* Color verde claro para el mensaje */
+  margin: 10px 0; /* Sin margen superior */
+}
+
+.link {
+  margin: 0 10px; /* Espaciado alrededor del enlace */
+  text-decoration: underline; /* Estilo opcional para el enlace */
+  color: #22577a; /* Color para el enlace (ajusta según tu paleta) */
+}
+
+.link:hover {
+  color: #57cc99; /* Cambia el color al pasar el mouse, si lo deseas */
+}

@@ -1,11 +1,16 @@
-import Style from "./App.module.css"
-import Home from './views/Home'
+// import Home from './views/Home/Home'
+// import Login from './views/Login/Login'
+// import MisTurnos from "./views/MisTurnos/MisTurnos"
+// import Register from './views/Register/Register'
 
 function App() {
   return (
     <>
-      <h1 className={Style.titulo} > HOLA ESTAMOS EN APP </h1>
-      <Home />
+      <h1> HOLA ESTAMOS EN APP </h1>
+      {/* <Home />
+      <MisTurnos />  */}
+      {/* <Register /> */}
+      {/* <Login /> */}
     </>
   )
 }

@@ -1,0 +1,72 @@
+.formContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 400px; /* Ancho máximo para el formulario */
+  margin: auto; /* Centra el formulario en la página */
+  padding: 20px;
+  background-color: #f9f9f9; /* Fondo ligero para el formulario */
+  border-radius: 10px; /* Bordes redondeados */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Sombra para dar profundidad */
+  z-index: 1;
+}
+
+.formTitle {
+  margin-bottom: 20px;
+  font-size: 1.8em; /* Tamaño de fuente para el título */
+  color: #22577a; /* Color azul para el título */
+}
+
+.formGroup {
+  width: 100%; /* El grupo de formulario ocupa el 100% del contenedor */
+  margin-bottom: 15px; /* Espacio entre los grupos de formulario */
+}
+
+.formLabel {
+  display: block; /* Asegura que la etiqueta esté en una nueva línea */
+  margin-bottom: 5px; /* Espacio entre la etiqueta y el input */
+  font-weight: bold; /* Negrita para las etiquetas */
+  color: #333; /* Color del texto de las etiquetas */
+}
+
+.formInput {
+  width: 100%; /* Input ocupa el 100% del contenedor */
+  padding: 10px; /* Espaciado interno */
+  border: 1px solid #ddd; /* Borde ligero */
+  border-radius: 5px; /* Bordes redondeados */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Sombra ligera para inputs */
+  transition: border-color 0.3s; /* Transición suave para el borde */
+}
+
+.formInput:focus {
+  border-color: #57cc99; /* Color de borde al enfocar */
+  outline: none; /* Quita el contorno predeterminado */
+}
+
+.errorLabel {
+  color: #dc3545; /* Color rojo para mensajes de error */
+  font-size: 0.9em; /* Tamaño de fuente para errores */
+  margin-top: 5px; /* Espacio superior para el error */
+}
+
+.formButton {
+  background-color: #57cc99; /* Color del botón */
+  color: white; /* Color del texto del botón */
+  border: none; /* Sin borde */
+  border-radius: 5px; /* Bordes redondeados */
+  padding: 10px 15px; /* Espaciado interno del botón */
+  font-size: 1em; /* Tamaño de fuente del botón */
+  cursor: pointer; /* Cursor de mano al pasar sobre el botón */
+  transition: background-color 0.3s; /* Transición suave para el color de fondo */
+}
+
+.formButton:disabled {
+  background-color: #c7c7c7; /* Color de fondo cuando está deshabilitado */
+  cursor: not-allowed; /* Cursor no permitido cuando está deshabilitado */
+}
+
+.formButton:hover:not(:disabled) {
+  background-color: #38a3a5; /* Color del botón al pasar el mouse */
+}

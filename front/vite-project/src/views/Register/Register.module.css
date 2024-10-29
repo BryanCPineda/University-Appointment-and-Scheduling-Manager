@@ -1,0 +1,69 @@
+.formContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
+  margin: auto;
+  z-index: 1;
+  position: fixed;
+  top: 65px;
+}
+
+.formTitle {
+  font-size: 1.5em;
+  margin-bottom: 20px;
+  color: #22577a;
+  text-transform: uppercase;
+}
+
+.formGroup {
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.formLabel {
+  font-size: 1rem;
+  color: #22577a;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.formInput {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.errorLabel {
+  font-size: 0.9rem;
+  color: #dc3545;
+  margin-top: 5px;
+}
+
+.formButton {
+  background-color: #57cc99;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-transform: uppercase;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.formButton:disabled {
+  background-color: grey;
+  cursor: not-allowed;
+}
+
+.formButton:hover:not(:disabled) {
+  background-color: #38a3a5;
+}
