@@ -1,11 +1,13 @@
+/* eslint-disable react/prop-types */
 import { loginFormValidate } from "../../helpers/loginFormValidate"
 import styles from "./Login.module.css"
 import { useFormik } from "formik"
 import axios from "axios"
 import Swal from "sweetalert2"
+import { Link, useNavigate } from "react-router-dom"
 
-const Login = () => {
-
+const Login = ({setIsLogged}) => {
+  const navigate = useNavigate()
   const formik = useFormik({
       initialValues: {
         username: "",
@@ -25,6 +27,9 @@ const Login = () => {
                         title: "Usuario logueado con exito"
                       })
                   }
+                  localStorage.setItem("loggin", true)
+                  setIsLogged(true)
+                  navigate("/")
             })
             .catch((err) => {
                 if(err){
@@ -83,6 +88,10 @@ const Login = () => {
       >
         Submit
       </button>
+      <br />
+      <label>
+          Aun no tienes una cuenta ? <Link to="/register">  Registrate </Link> 
+      </label>
     </form>
   )
 }
