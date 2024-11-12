@@ -1,0 +1,70 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 70px;
+  background-color: #f0f0f0; /* Fondo claro y neutro */
+  border-radius: 8px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.title {
+  font-size: 2rem;
+  color: #22577a; /* Azul oscuro para el título */
+  margin-bottom: 20px;
+}
+
+.form {
+  width: 100%;
+  max-width: 400px;
+}
+
+.formGroup {
+  margin-bottom: 15px;
+}
+
+.label {
+  display: block;
+  margin-bottom: 5px;
+  color: #22577a; /* Azul oscuro para las etiquetas */
+}
+
+.input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+.errorInput {
+  border: 1px solid #dc3545; /* Rojo para el error */
+}
+
+.error {
+  color: #dc3545; /* Rojo para el mensaje de error */
+  font-size: 0.875rem;
+}
+
+.submitButton {
+  background-color: #38a3a5; /* Verde oscuro para el botón */
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-size: 1.2rem;
+}
+
+.submitButton:hover {
+  background-color: #57cc99; /* Verde más claro en hover */
+}
+
+.submitButton:disabled {
+  background-color: #ccc; /* Color gris para el botón deshabilitado */
+  color: #666; /* Color de texto gris */
+  cursor: not-allowed; /* Cambia el cursor para indicar que está deshabilitado */
+  transition: none; /* Sin transición cuando está deshabilitado */
+}
