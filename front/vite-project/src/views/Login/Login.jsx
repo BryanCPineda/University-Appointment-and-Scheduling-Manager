@@ -1,12 +1,16 @@
-/* eslint-disable react/prop-types */
+/* eslint-disable no-unused-vars */
 import { loginFormValidate } from "../../helpers/loginFormValidate"
 import styles from "./Login.module.css"
 import { useFormik } from "formik"
-import axios from "axios"
 import Swal from "sweetalert2"
 import { Link, useNavigate } from "react-router-dom"
+import { useContext } from "react"
+import { UsersContext } from "../../context/UsersContext"
 
-const Login = ({setIsLogged}) => {
+const Login = () => {
+
+  const { loginUser } = useContext(UsersContext)
+
   const navigate = useNavigate()
   const formik = useFormik({
       initialValues: {
@@ -18,28 +22,21 @@ const Login = ({setIsLogged}) => {
         username: "Username is required",
         password: "Password is required"
       },
-      onSubmit: (values) => {
-          axios.post("http://localhost:3002/users/login", values)
-            .then((res) => {
-                  if(res.status === 200){
-                      Swal.fire({
-                        icon: "success",
-                        title: "Usuario logueado con exito"
-                      })
-                  }
-                  localStorage.setItem("loggin", true)
-                  setIsLogged(true)
-                  navigate("/")
-            })
-            .catch((err) => {
-                if(err){
-                    Swal.fire({
-                      icon:"error",
-                      title: "Usuario o contraseña invalidos",
-                      text: "intente nuevamente"
-                    })
-                }
-            })
+      onSubmit: async (values) => {
+        try {
+          await loginUser(values)
+          Swal.fire({
+            icon: "success",
+            title: "Usuario logueado con exito"
+          })
+          navigate("/")
+        } catch (error) {
+          Swal.fire({
+            icon:"error",
+            title: "Usuario o contraseña invalidos",
+            text: "intente nuevamente"
+          })
+        }
       }
   })
 

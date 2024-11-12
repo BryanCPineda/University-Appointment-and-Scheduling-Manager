@@ -1,11 +1,15 @@
 import { registerFormValidate } from "../../helpers/registerFormValidate"
 import styles from "./Register.module.css"
 import { useFormik } from "formik"
-import axios from "axios"
 import Swal from "sweetalert2"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
+import { useContext } from "react"
+import { UsersContext } from "../../context/UsersContext"
 
 const Register = () => {
+
+  const {registerUser} = useContext(UsersContext)
+  const navigate = useNavigate()
 
   const formik = useFormik({
       initialValues: {
@@ -25,38 +29,36 @@ const Register = () => {
           password: "password is required"
       },
       validate: registerFormValidate,
-      onSubmit: (values) => {
-          axios.post("http://localhost:3002/users/register", values)
-            .then((res) => {
-                  if(res.status === 201){
-                      Swal.fire({
-                          icon: "success",
-                          title: "Usuario registrado correctamente"
-                      })
-                  }
-            })
-            .catch((err) =>{
-                if(err.response.data.details.includes("email")){
-                    Swal.fire({
-                      icon: "error",
-                      title: `Ya existe un usuario con el mail: ${formik.values.email}`,
-                      text: "intente con otro email"
-                    })
-                }
-                else if(err.response.data.details.includes("username")){
-                  Swal.fire({
-                    icon: "error",
-                    title: `Ya existe un usuario: ${formik.values.username}`,
-                    text: "intente con otro username"
-                  })
-                }
-                else if(err.response.data.details.includes("nDni")){
-                  Swal.fire({
-                    icon: "error",
-                    title: `Ya existe un usuario con el numero de DNI: ${formik.values.nDni}`,
-                  })
-                }
-            })
+      onSubmit: async (values) => {
+            try {
+              await registerUser(values)
+              Swal.fire({
+                icon: "success",
+                title: "Usuario registrado correctamente"
+              })
+              navigate("/login")
+            } catch (err) {
+              if(err.response.data.details.includes("email")){
+                Swal.fire({
+                  icon: "error",
+                  title: `Ya existe un usuario con el mail: ${formik.values.email}`,
+                  text: "intente con otro email"
+                })
+              }
+              else if(err.response.data.details.includes("username")){
+                Swal.fire({
+                  icon: "error",
+                  title: `Ya existe un usuario: ${formik.values.username}`,
+                  text: "intente con otro username"
+                })
+              }
+              else if(err.response.data.details.includes("nDni")){
+                Swal.fire({
+                  icon: "error",
+                  title: `Ya existe un usuario con el numero de DNI: ${formik.values.nDni}`,
+                })
+              }
+            }
       }
   })
 

@@ -1,13 +1,19 @@
-import Navbar from "../../components/NavBar/Navbar"
-import Style from "./Home.module.css"
-function Home(){
+import { Link } from "react-router-dom";
+import Styles from "./Home.module.css";
 
-  return(
-    <>
-      <h1> Estamos en home</h1>
-    </>
-  )
-}
+const Home = () => {
+  return (
+    <div className={Styles.homeContainer}>
+      <h1 className={Styles.welcomeTitle}>¡Bienvenid@!</h1>
+      <p className={Styles.welcomeMessage}>
+        ¿Quieres
+        <Link to="/agendarturno" className={Styles.link}>
+          agendar
+        </Link>
+        un nuevo turno hoy?
+      </p>
+    </div>
+  );
+};
 
-
-export default Home
+export default Home;
